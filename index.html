@@ -355,6 +355,27 @@ function applyTheme(t) {
   document.getElementById('theme-color-meta').content = t === 'light' ? '#f0f4f8' : '#0a0e1a';
   render();
 }
+function resizeCanvas(){//blurry fix
+  const container = document.getElementById('canvas-container');
+  const dpr = window.devicePixelRatio || 1;
+  const w = container.clientWidth;
+  const h = container.clientHeight;
+
+  // Set internal drawing surface to physical pixels
+  canvas.width = w * dpr;
+  canvas.height = h * dpr;
+
+  // Set display size to logical pixels (CSS)
+  canvas.style.width = w + 'px';
+  canvas.style.height = h + 'px';
+
+  // Scale context to keep your current coordinate logic valid
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  S.w = w; // Keep logical width for your game logic
+  S.h = h;
+  draw();
+}
 
 // ═══ HISTORY ══════════════════════════════════════════════════════════════
 function saveHist() {
