@@ -2,7 +2,7 @@
   "name": "Blueprint Maker",
   "short_name": "Blueprint",
   "description": "Technical drawing tool",
-  "start_url": "/blueprint-maker.html",
+  "start_url": "index.html",
   "display": "standalone",
   "background_color": "#0a0e1a",
   "theme_color": "#0a0e1a",
