@@ -355,28 +355,6 @@ function applyTheme(t) {
   document.getElementById('theme-color-meta').content = t === 'light' ? '#f0f4f8' : '#0a0e1a';
   render();
 }
-function resizeCanvas(){//blurry fix
-  const container = document.getElementById('canvas-container');
-  const dpr = window.devicePixelRatio || 1;
-  const w = container.clientWidth;
-  const h = container.clientHeight;
-
-  // Set internal drawing surface to physical pixels
-  canvas.width = w * dpr;
-  canvas.height = h * dpr;
-
-  // Set display size to logical pixels (CSS)
-  canvas.style.width = w + 'px';
-  canvas.style.height = h + 'px';
-
-  // Scale context to keep your current coordinate logic valid
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-  S.w = w; // Keep logical width for your game logic
-  S.h = h;
-  draw();
-}
-
 // ═══ HISTORY ══════════════════════════════════════════════════════════════
 function saveHist() {
   const snap = JSON.parse(JSON.stringify({shapes:S.shapes, canvasSize:S.canvasSize}));
@@ -426,13 +404,26 @@ function setMaxCanvas() {
 
 // ═══ GRID ═════════════════════════════════════════════════════════════════
 function renderGrid() {
+  const dpr = window.devicePixelRatio || 1; // 1. Get screen pixel density
   const sz = cpx();
-  GC.width = sz; GC.height = sz;
+  
+  // 2. Scale internal drawing buffer to physical pixels
+  GC.width = sz * dpr; 
+  GC.height = sz * dpr;
+  
+  // 3. Keep logical display size (CSS) unchanged
   CI.style.width = sz+'px'; CI.style.height = sz+'px';
   SV.setAttribute('width',sz); SV.setAttribute('height',sz);
   SV.style.width = sz+'px'; SV.style.height = sz+'px';
+  
   const ctx = GC.getContext('2d');
+  
+  // 4. Scale the context so your old math works perfectly
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  
   ctx.clearRect(0,0,sz,sz);
+
+  // --- YOUR ORIGINAL LOGIC BELOW THIS LINE REMAINS 100% UNCHANGED ---
 
   if (S.blueprintMode) { ctx.fillStyle='#050e2a'; ctx.fillRect(0,0,sz,sz); }
   else if (S.theme==='light') { ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,sz,sz); }
