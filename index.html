@@ -304,7 +304,7 @@ const S = {
   showLengths: true,
   showAngles: true,
   showDots: true,
-  theme: 'dark',           // 'dark' | 'light'
+  theme: 'light',           // 'dark' | 'light'
   lineStyle: 'solid',
   lineColor: '#000000',
   currentShape: 'line',
@@ -531,7 +531,6 @@ function renderShapes() {
   resetLabels();
   S.shapes.forEach(s=>{
     const color = s.color||S.lineColor;
-    const color = baseColor === '#000000' ? 'var(--text)' : baseColor;
     const dash = s.style==='dashed'?'6,3':s.style==='dotted'?'2,4':'';
     if(s.type==='line') renderLine(s,color,dash);
     else if(s.type==='circle') renderCircle(s,color,dash);
