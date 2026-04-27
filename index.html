@@ -626,14 +626,14 @@ function drawSegment(x1,y1,x2,y2,color,dash,id,hideLabel,segIdx) {
   }
 }
 
-function addDelBtn(x,y,id) {
-  const g=svgEl('g',{style:'cursor:pointer'});
-  const r=6*Math.max(.7,S.zoom);
-  g.appendChild(svgEl('circle',{cx:x,cy:y,r,fill:'#1a0808',stroke:'#4a1515'}));
-  const t=svgEl('text',{x,y:y+3.5*S.zoom,'text-anchor':'middle','font-size':8*Math.max(.7,S.zoom),fill:'#ef4444','font-family':'monospace','pointer-events':'none'});
-  t.textContent='✕'; g.appendChild(t);
-  g.onclick=e=>{e.stopPropagation();deleteShape(id);};
-  SV.appendChild(g);
+//function addDelBtn(x,y,id) {
+  //const g=svgEl('g',{style:'cursor:pointer'});
+  //const r=6*Math.max(.7,S.zoom);
+  //g.appendChild(svgEl('circle',{cx:x,cy:y,r,fill:'#1a0808',stroke:'#4a1515'}));
+  //const t=svgEl('text',{x,y:y+3.5*S.zoom,'text-anchor':'middle','font-size':8*Math.max(.7,S.zoom),fill:'#ef4444','font-family':'monospace','pointer-events':'none'});
+  //t.textContent='✕'; g.appendChild(t);
+  //g.onclick=e=>{e.stopPropagation();deleteShape(id);};
+  //SV.appendChild(g);
 }
 
 // ═══ DOTS ═════════════════════════════════════════════════════════════════
