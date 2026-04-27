@@ -348,13 +348,20 @@ function notify(msg, color) {
 }
 
 // ═══ THEME ════════════════════════════════════════════════════════════════
-function applyTheme(t) {
+  function applyTheme(t) {
   S.theme = t;
   document.documentElement.setAttribute('data-theme', t === 'light' ? 'light' : '');
   document.getElementById('b-theme').textContent = t === 'light' ? '🌙' : '☀';
   document.getElementById('theme-color-meta').content = t === 'light' ? '#f0f4f8' : '#0a0e1a';
+  // ── NEW: reset default line color to theme-appropriate default ──
+  if (S.lineColor === '#000000' || S.lineColor === '#c8d6e5') {
+    S.lineColor = t === 'light' ? '#000000' : '#c8d6e5';
+    const hexVal = S.lineColor.replace('#','');
+    document.getElementById('hex-in').value = hexVal;
+    document.getElementById('cswatch').style.background = S.lineColor;
+  }
   render();
-}
+  }
 // ═══ HISTORY ══════════════════════════════════════════════════════════════
 function saveHist() {
   const snap = JSON.parse(JSON.stringify({shapes:S.shapes, canvasSize:S.canvasSize}));
@@ -539,7 +546,7 @@ function renderShapes() {
   while(SV.firstChild) SV.removeChild(SV.firstChild);
   resetLabels();
   S.shapes.forEach(s=>{
-    const color = s.color||S.lineColor;
+    const color = resolveColor(s.color||S.lineColor);
     const dash = s.style==='dashed'?'6,3':s.style==='dotted'?'2,4':'';
     if(s.type==='line') renderLine(s,color,dash);
     else if(s.type==='circle') renderCircle(s,color,dash);
