@@ -524,7 +524,16 @@ function svgEl(tag,attrs) {
   Object.entries(attrs).forEach(([k,v])=>el.setAttribute(k,v));
   return el;
 }
-
+// ═══ RESOLVE COLOR ════════════════════════════════════════════════════════
+// Maps #000000 (default/dark-invisible) to readable theme color
+function resolveColor(c) {
+  if (!c || c === '#000000') {
+    // In dark/blueprint mode use light text; in light mode keep black
+    if (S.blueprintMode) return '#7eb8e0';
+    return S.theme === 'dark' ? '#c8d6e5' : '#000000';
+  }
+  return c;
+  }
 // ═══ RENDER SHAPES ════════════════════════════════════════════════════════
 function renderShapes() {
   while(SV.firstChild) SV.removeChild(SV.firstChild);
