@@ -580,7 +580,6 @@ function renderLine(s,color,dash) {
     if(S.showAngles) lbl+=`${angleDeg>180?angleDeg-360:angleDeg}°`;
     placeLabel(cx,cy,angle,lbl,s.id,color);
   }
-  if(!S.locked) addDelBtn(x2,y2-14*Math.max(.7,S.zoom),s.id);
 }
 
 function renderCircle(s,color,dash) {
@@ -594,7 +593,6 @@ function renderCircle(s,color,dash) {
     SV.appendChild(svgEl('circle',{cx,cy,r:2.5,fill:color,opacity:'.7'}));
     SV.appendChild(svgEl('line',{x1:ex,y1:cy-5,x2:ex,y2:cy+5,stroke:color,'stroke-width':'1',opacity:'.6'}));
     if(!s.hideLabel&&S.showLengths) placeLabel((cx+ex)/2,cy,0,`r=${(parseFloat(s.r)*10).toFixed(1)}mm`,s.id,color);
-    if(!S.locked) addDelBtn(ex,cy-14*Math.max(.7,S.zoom),s.id);
   } else {
     const attrs={cx,cy,r,fill:'none',stroke:color,'stroke-width':'1.5'};
     if(dash) attrs['stroke-dasharray']=dash;
@@ -602,7 +600,6 @@ function renderCircle(s,color,dash) {
     SV.appendChild(svgEl('line',{x1:cx-4,y1:cy,x2:cx+4,y2:cy,stroke:color,'stroke-width':'1',opacity:'.5'}));
     SV.appendChild(svgEl('line',{x1:cx,y1:cy-4,x2:cx,y2:cy+4,stroke:color,'stroke-width':'1',opacity:'.5'}));
     if(!s.hideLabel&&S.showLengths) placeLabel(cx,cy-r-10,0,`r=${s.r}`,s.id,color);
-    if(!S.locked) addDelBtn(cx+r*0.707,cy-r*0.707-14*Math.max(.7,S.zoom),s.id);
   }
 }
 
