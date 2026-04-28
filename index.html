@@ -613,10 +613,6 @@ function renderPolygon(s,color,dash) {
     const last=pts[pts.length-1],first=pts[0];
     drawSegment(last.x,last.y,first.x,first.y,color,dash,s.id,s.hideLabel,pts.length-1);
   }
-  if(!S.locked) {
-    const last=pts[pts.length-1];
-    addDelBtn(last.x,last.y-14*Math.max(.7,S.zoom),s.id);
-  }
 }
 
 function drawSegment(x1,y1,x2,y2,color,dash,id,hideLabel,segIdx) {
@@ -647,7 +643,7 @@ function drawSegment(x1,y1,x2,y2,color,dash,id,hideLabel,segIdx) {
   //t.textContent='✕'; g.appendChild(t);
   //g.onclick=e=>{e.stopPropagation();deleteShape(id);};
   //SV.appendChild(g);
-}
+//}
 
 // ═══ DOTS ═════════════════════════════════════════════════════════════════
 function renderDots() {
