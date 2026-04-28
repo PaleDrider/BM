@@ -1093,10 +1093,16 @@ document.querySelectorAll('.stab').forEach(t=>t.addEventListener('click',()=>{
 // Service Worker
 if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
 
-// ═══ RENDER ════════════════════════════════════════════════════════════════
+//═══ RENDER ════════════════════════════════════════════════════════════════
 function render(){renderGrid();renderShapes();renderDots();renderSidebar();updHist();}
 
+
 // ═══ INIT ═════════════════════════════════════════════════════════════════
+const isMobile = window.matchMedia('(max-width:768px)').matches || 'ontouchstart' in window;
+if (isMobile) {
+  S.showDots = false;
+  document.getElementById('b-dots').classList.remove('on');
+}
 renderPolyInputs();
 saveHist();
 render();
