@@ -1094,11 +1094,6 @@ function render(){renderGrid();renderShapes();renderDots();renderSidebar();updHi
 
 
 // ═══ INIT ═════════════════════════════════════════════════════════════════
-const isMobile = window.matchMedia('(max-width:768px)').matches || 'ontouchstart' in window;
-if (isMobile) {
-  S.showDots = false;
-  document.getElementById('b-dots').classList.remove('on');
-}
 renderPolyInputs();
 saveHist();
 render();
