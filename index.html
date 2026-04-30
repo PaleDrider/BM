@@ -26,7 +26,7 @@
   --bg:#f0f4f8; --canvas-bg:#ffffff; --grid-minor:#dde3ea; --grid-major:#b8c6d4;
   --panel:#e4eaf0; --border:#c8d6e0; --btn:#d8e4ed; --btnhov:#c8d4de; --btnact:#a8bfcf;
   --text:#1a2535; --dim:#5a7090; --bright:#0d1520;
-  --label-bg:rgba(255,255,255,.92); --label-border:#c8d6e0; --label-text:#1a2535;
+  --label-bg:rgba(220,235,248,.97); --label-border:#7a9ab8; --label-text:#0d1520;
   --default-line:#000000;
 }
 
@@ -432,7 +432,7 @@ function renderGrid() {
 
   // --- YOUR ORIGINAL LOGIC BELOW THIS LINE REMAINS 100% UNCHANGED ---
 
-  if (S.blueprintMode) { ctx.fillStyle='#050e2a'; ctx.fillRect(0,0,sz,sz); }
+  if (S.blueprintMode && S.theme !== 'light') { ctx.fillStyle='#050e2a'; ctx.fillRect(0,0,sz,sz); }
   else if (S.theme==='light') { ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,sz,sz); }
 
   if (!S.gridVisible) return;
@@ -441,7 +441,7 @@ function renderGrid() {
   for (let i=0; i<=S.canvasSize; i++) {
     const maj = i%5===0;
     ctx.strokeStyle = S.blueprintMode
-      ? (maj?'#1a3060':'#0d1f3c')
+      ? (isLight ? (maj?'#8aaac8':'#b8cfe0') : (maj?'#1a3060':'#0d1f3c'))
       : isLight ? (maj?'#b8c6d4':'#dde3ea') : (maj?'#1e2d4e':'#192038');
     ctx.lineWidth = maj?.7:.4;
     const p = i*cell;
@@ -449,7 +449,7 @@ function renderGrid() {
     ctx.beginPath(); ctx.moveTo(0,p); ctx.lineTo(sz,p); ctx.stroke();
   }
   // Axis numbers every 10
-  ctx.fillStyle = S.blueprintMode?'#1a3060':isLight?'#b8c6d4':'#1e2d4e';
+  ctx.fillStyle = S.blueprintMode ? (isLight?'#5070a0':'#1a3060') : isLight?'#b8c6d4':'#1e2d4e';
   ctx.font = `${Math.max(6,7*S.zoom)}px JetBrains Mono,monospace`;
   for (let i=0; i<=S.canvasSize; i+=10) {
     const p = i*cell;
@@ -565,8 +565,10 @@ function renderLine(s,color,dash) {
   if(S.blueprintMode) {
     const dx=x2-x1,dy=y2-y1,len=Math.sqrt(dx*dx+dy*dy)||1;
     const px=-dy/len*28*S.zoom,py=dx/len*28*S.zoom;
-    SV.appendChild(svgEl('line',{x1:x1+px,y1:y1+py,x2:x2+px,y2:y2+py,stroke:'#4a6080','stroke-width':'1','stroke-dasharray':'3,4'}));
-    [[x1,y1],[x2,y2]].forEach(([cx,cy])=>SV.appendChild(svgEl('line',{x1:cx,y1:cy,x2:cx+px,y2:cy+py,stroke:'#2a3f6a','stroke-width':'.7'})));
+    const _bpLine = S.theme==='light' ? '#7090b8' : '#4a6080';
+    const _bpTick = S.theme==='light' ? '#5070a0' : '#2a3f6a';
+    SV.appendChild(svgEl('line',{x1:x1+px,y1:y1+py,x2:x2+px,y2:y2+py,stroke:_bpLine,'stroke-width':'1','stroke-dasharray':'3,4'}));
+    [[x1,y1],[x2,y2]].forEach(([cx,cy])=>SV.appendChild(svgEl('line',{x1:cx,y1:cy,x2:cx+px,y2:cy+py,stroke:_bpTick,'stroke-width':'.7'})));
   }
 
   if(!s.hideLabel&&(S.showLengths||S.showAngles)) {
