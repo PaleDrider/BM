@@ -427,11 +427,7 @@ function renderGrid() {
   
   // 4. Scale the context so your old math works perfectly
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  
   ctx.clearRect(0,0,sz,sz);
-
-  // --- YOUR ORIGINAL LOGIC BELOW THIS LINE REMAINS 100% UNCHANGED ---
-
   if (S.blueprintMode && S.theme !== 'light') { ctx.fillStyle='#050e2a'; ctx.fillRect(0,0,sz,sz); }
   else if (S.theme==='light') { ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,sz,sz); }
 
