@@ -551,19 +551,30 @@ function renderShapes() {
 
 function renderLine(s,color,dash) {
   const x1=g2p(s.x1),y1=g2p(s.y1),x2=g2p(s.x2),y2=g2p(s.y2);
-  const lw = S.blueprintMode?'1.2':'1.5';
-  const bpDash = S.blueprintMode && !dash ? '6,3' : dash;
+  const lw = S.blueprintMode ? '1.8' : '1.5';
+  // Blueprint: main line always solid regardless of style setting
+  const mainDash = S.blueprintMode ? '' : dash;
   const attrs = {x1,y1,x2,y2,stroke:color,'stroke-width':lw};
-  if(bpDash) attrs['stroke-dasharray']=bpDash;
+  if(mainDash) attrs['stroke-dasharray'] = mainDash;
   SV.appendChild(svgEl('line',attrs));
 
   if(S.blueprintMode) {
     const dx=x2-x1,dy=y2-y1,len=Math.sqrt(dx*dx+dy*dy)||1;
     const px=-dy/len*28*S.zoom,py=dx/len*28*S.zoom;
-    const _bpLine = S.theme==='light' ? '#7090b8' : '#4a6080';
-    const _bpTick = S.theme==='light' ? '#5070a0' : '#2a3f6a';
-    SV.appendChild(svgEl('line',{x1:x1+px,y1:y1+py,x2:x2+px,y2:y2+py,stroke:_bpLine,'stroke-width':'1','stroke-dasharray':'3,4'}));
-    [[x1,y1],[x2,y2]].forEach(([cx,cy])=>SV.appendChild(svgEl('line',{x1:cx,y1:cy,x2:cx+px,y2:cy+py,stroke:_bpTick,'stroke-width':'.7'})));
+    const _bpLine = S.theme==='light' ? '#3a6888' : '#4a6080';
+    const _bpTick = S.theme==='light' ? '#2a5070' : '#2a3f6a';
+    // Parallel offset line — dashed, thinner, slightly longer (extend 8px each end)
+    const ext = 8;
+    const nx=(dx/len)*ext, ny=(dy/len)*ext;
+    SV.appendChild(svgEl('line',{
+      x1:x1+px-nx, y1:y1+py-ny, x2:x2+px+nx, y2:y2+py+ny,
+      stroke:_bpLine,'stroke-width':'1','stroke-dasharray':'6,3'
+    }));
+    // Tick marks connecting main line to parallel — solid, thin
+    [[x1,y1],[x2,y2]].forEach(([cx,cy])=>SV.appendChild(svgEl('line',{
+      x1:cx,y1:cy,x2:cx+px,y2:cy+py,
+      stroke:_bpTick,'stroke-width':'.8'
+    })));
   }
 
   if(!s.hideLabel&&(S.showLengths||S.showAngles)) {
